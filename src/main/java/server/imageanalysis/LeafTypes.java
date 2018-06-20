@@ -1,4 +1,4 @@
-package com.example.demo;
+package server.imageanalysis;
 
 public class LeafTypes {
 	
