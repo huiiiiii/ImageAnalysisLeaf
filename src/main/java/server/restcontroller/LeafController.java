@@ -42,10 +42,10 @@ public class LeafController {
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
             RedirectAttributes redirectAttributes) {
 
-        storageService.store(file); 
+        String filename = storageService.store(file); 
         LeafTypeName leafTypeName = null;
         try {
-        	leafTypeName = leafTypeInvestigator.identifyLeafType(file);
+        	leafTypeName = leafTypeInvestigator.identifyLeafType(filename);
 
         } catch(ReadImageException e) {
         	return e.getMessage();

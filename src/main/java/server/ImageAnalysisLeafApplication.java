@@ -28,7 +28,7 @@ public class ImageAnalysisLeafApplication {
     }
     
     @Bean
-    LeafTypeInvestigator leafTypeInvestigator() {
-    	return new LeafTypeInvestigator();
+    LeafTypeInvestigator leafTypeInvestigator(StorageService storageService) {
+    	return new LeafTypeInvestigator(storageService);
     }
 }
