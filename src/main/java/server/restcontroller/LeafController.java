@@ -25,25 +25,23 @@ public class LeafController {
         this.storageService = storageService;
     }
 
-    @RequestMapping("/leaftype")
+/*    @RequestMapping("/leaftype")
     public LeafTypeName getLeafType(@RequestParam(value="name", defaultValue="World") String name) {
         return LeafTypeName.Herzfoermig;
-    }
+    } */
     
     @RequestMapping("/leaftypelist")
     public LeafTypeName[] getLeafTypeList(@RequestParam(value="name", defaultValue="World") String name) {
         return LeafTypeName.values();
     }
     
-    @PostMapping("/")
+    @PostMapping("/leaftype")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
             RedirectAttributes redirectAttributes) {
 
-        storageService.store(file);
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
+        storageService.store(file); 
 
-        return "redirect:/";
+        return "You successfully uploaded " + file.getOriginalFilename() + " --> leafe type is: " + LeafTypeName.Herzfoermig;
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
