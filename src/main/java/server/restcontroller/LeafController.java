@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+import server.imageanalysis.LeafTypeInvestigator;
 import server.imageanalysis.LeafTypes.LeafTypeName;
+import server.imageanalysis.ReadImageException;
 import server.storageservice.StorageFileNotFoundException;
 import server.storageservice.StorageService;
 
@@ -19,10 +20,12 @@ import server.storageservice.StorageService;
 public class LeafController {
 	
     private final StorageService storageService;
+    private final LeafTypeInvestigator leafTypeInvestigator;
 
     @Autowired
-    public LeafController(StorageService storageService) {
+    public LeafController(StorageService storageService, LeafTypeInvestigator leafTypeInvestigator) {
         this.storageService = storageService;
+        this.leafTypeInvestigator = leafTypeInvestigator;
     }
 
 /*    @RequestMapping("/leaftype")
@@ -40,8 +43,15 @@ public class LeafController {
             RedirectAttributes redirectAttributes) {
 
         storageService.store(file); 
+        LeafTypeName leafTypeName = null;
+        try {
+        	leafTypeName = leafTypeInvestigator.identifyLeafType(file);
 
-        return "You successfully uploaded " + file.getOriginalFilename() + " --> leafe type is: " + LeafTypeName.Herzfoermig;
+        } catch(ReadImageException e) {
+        	return e.getMessage();
+        }
+         
+        return "You successfully uploaded " + file.getOriginalFilename() + " --> leafe type is: " + leafTypeName;
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

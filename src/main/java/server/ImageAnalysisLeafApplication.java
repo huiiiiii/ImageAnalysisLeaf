@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
+import server.imageanalysis.LeafTypeInvestigator;
 import server.storageservice.StorageProperties;
 import server.storageservice.StorageService;
 
@@ -24,5 +25,10 @@ public class ImageAnalysisLeafApplication {
             storageService.deleteAll();
             storageService.init();
         };
+    }
+    
+    @Bean
+    LeafTypeInvestigator leafTypeInvestigator() {
+    	return new LeafTypeInvestigator();
     }
 }
